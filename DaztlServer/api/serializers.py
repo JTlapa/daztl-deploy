@@ -83,15 +83,14 @@ class SongSerializer(serializers.ModelSerializer):
         
         if obj.cover_image:
             if request:
-                return request.build_absolute_uri(obj.cover_image.url) 
-            return obj.cover_image.url  
-        
-        # Buscar en álbumes que contengan esta canción
+                return request.build_absolute_uri(obj.cover_image.url)
+            return obj.cover_image.url.replace('http://localhost/', 'http://localhost:8000/')
+
         album_with_song = Album.objects.filter(songs=obj).first()
         if album_with_song and album_with_song.cover_image:
             if request:
-                return request.build_absolute_uri(album_with_song.cover_image.url) 
-            return album_with_song.cover_image.url  
+                return request.build_absolute_uri(album_with_song.cover_image.url)
+            return album_with_song.cover_image.url.replace('http://localhost/', 'http://localhost:8000/')  
             
         return None
     class Meta:

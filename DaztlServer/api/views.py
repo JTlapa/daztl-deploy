@@ -580,7 +580,6 @@ class CustomLoginView(TokenObtainPairView):
             data = super().validate(attrs)
             user = self.user
             
-            #Verificacion artista
             is_artist = user.role == 'artist'
             artist_profile_id = None
             if is_artist:
