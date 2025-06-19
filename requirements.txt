@@ -1,0 +1,13 @@
+Django>=4.2
+djangorestframework
+grpcio
+pillow
+grpcio-tools
+pyodbc
+mssql-django
+gunicorn
+requests
+django-mssql-backend
+djangorestframework-simplejwt
+channels[daphne]==4.0.0
+grpcio-tools

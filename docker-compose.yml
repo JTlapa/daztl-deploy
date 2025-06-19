@@ -1,0 +1,34 @@
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.django
+    container_name: django_app
+    volumes:
+      - ./DaztlServer:/DaztlServer
+    env_file:
+      - .env
+    ports:
+      - "8000:8000"
+
+  grpc:
+    build:
+      context: .
+      dockerfile: Dockerfile.grpc
+    container_name: grpc_server
+    volumes:
+      - ./DaztlServer:/DaztlServer
+    env_file:
+      - .env
+    ports:
+      - "50051:50051"
+
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: db
+    ports:
+      - "14330:1433"
+    environment:
+      SA_PASSWORD: "DAztl123@Secure"
+      ACCEPT_EULA: "Y"
+      MSSQL_PID: "Express"
