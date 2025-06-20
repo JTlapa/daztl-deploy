@@ -132,6 +132,12 @@ class AlbumListView(generics.ListAPIView):
 class ArtistListView(generics.ListAPIView):
     permission_classes = [permissions.AllowAny]
     serializer_class = ArtistProfileSerializer
+    
+    def get_serializer_context(self):
+        context = super().get_serializer_context()
+        context['request'] = self.request
+        return context
+    
     def get_queryset(self):
         q = self.request.query_params.get('q','')
         return ArtistProfile.objects.filter(user__username__icontains=q)

@@ -114,9 +114,17 @@ class AlbumSerializer(serializers.ModelSerializer):
 
 class ArtistProfileSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
+    profile_picture = serializers.SerializerMethodField()
+
     class Meta:
         model = ArtistProfile
-        fields = ['id','user','bio']
+        fields = ['id', 'user', 'bio', 'profile_picture']
+
+    def get_profile_picture(self, obj):
+        request = self.context.get('request')
+        if obj.user.profile_picture:
+            return request.build_absolute_uri(obj.user.profile_picture.url)
+        return ""
 
 # — CU-05/06/07: Playlists
 class PlaylistSerializer(serializers.ModelSerializer):
