@@ -652,7 +652,7 @@ class MusicServiceServicer(daztl_service_pb2_grpc.MusicServiceServicer):
             token = request.token
             headers = {"Authorization": f"Bearer {token}", "Host": "localhost"}
             
-            response = requests.get("http://localhost:8000/api/playlists/", headers=headers, timeout=60)
+            response = requests.get(f"{API_BASE_URL}/playlists/", headers=headers, timeout=60)
 
             if response.status_code == 200:
                 data = response.json()
@@ -814,7 +814,7 @@ class MusicServiceServicer(daztl_service_pb2_grpc.MusicServiceServicer):
 
     def ListAlbums(self, request, context):
         try:
-            response = requests.get("http://localhost:8000/api/albums/", headers={"Host": "localhost"} ,timeout=60)
+            response = requests.get(f"{API_BASE_URL}/albums/", headers={"Host": "localhost"} ,timeout=60)
 
             if response.status_code == 200:
                 data = response.json()
@@ -861,7 +861,7 @@ class MusicServiceServicer(daztl_service_pb2_grpc.MusicServiceServicer):
 
     def ListArtists(self, request, context):
         try:
-            response = requests.get("http://localhost:8000/api/artists/", headers={"Host": "localhost"} , timeout=60)
+            response = requests.get(f"{API_BASE_URL}/artists/", headers={"Host": "localhost"} , timeout=60)
 
             if response.status_code == 200:
                 data = response.json()
@@ -1197,6 +1197,8 @@ class MusicServiceServicer(daztl_service_pb2_grpc.MusicServiceServicer):
                 **make_auth_header(request.token),
                 "Host": "localhost"
             }
+
+            print(headers)
             auth_check = requests.get(
                 f"{API_BASE_URL}/profile/",
                 headers=headers,

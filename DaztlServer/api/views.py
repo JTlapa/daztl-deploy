@@ -206,6 +206,8 @@ class SongUploadView(generics.CreateAPIView):
     permission_classes = [permissions.IsAuthenticated]
     serializer_class = SongUploadSerializer
     def perform_create(self, serializer):
+        auth_header = self.request.META.get('HTTP_AUTHORIZATION', '')
+        print(f"Authorization Header: {auth_header}")
         artist_profile = self.request.user.artistprofile
         serializer.save(artist=artist_profile)
 
@@ -330,6 +332,8 @@ class ProfileView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request):
+        auth_header = self.request.META.get('HTTP_AUTHORIZATION', '')
+        print(f"Authorization Header: {auth_header}")
         user = request.user
         profile_picture_url = ""
         if user.profile_picture:

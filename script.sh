@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/sh 
 echo "[ODBC Driver 17 for SQL Server]
 Driver = /opt/microsoft/msodbcsql17/lib64/libmsodbcsql-17.10.so.6.1
 UsageCount = 1
@@ -22,6 +22,7 @@ fi
 
 # Crear la base de datos si no existe
 echo "Verificando/Creando la base de datos..."
+sleep 4
 /opt/mssql-tools/bin/sqlcmd -S db -U sa -P DAztl123@Secure -Q "
 IF NOT EXISTS (SELECT name FROM master.sys.databases WHERE name = 'DaztlDB')
 BEGIN
@@ -52,7 +53,6 @@ if [ $MIGRATION_RETRY -eq $MAX_MIGRATION_RETRIES ]; then
     echo "Error: No se pudieron aplicar las migraciones después de $MAX_MIGRATION_RETRIES intentos"
     exit 1
 fi
-
 # Iniciar la aplicación
 echo "Iniciando la aplicación Django con Daphne..."
 exec daphne -b 0.0.0.0 -p 8000 daztl.asgi:application

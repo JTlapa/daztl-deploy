@@ -10,6 +10,12 @@ ALLOWED_HOSTS = ['django_app', 'localhost', '127.0.0.1', 'grpc_server']
 
 AUTH_USER_MODEL = 'api.User'
 
+# settings.py
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels.layers.InMemoryChannelLayer",  # Solo para desarrollo
+    },
+}
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -63,8 +69,8 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'daztl.wsgi.application'
-
+ASGI_APPLICATION = 'daztl.asgi.application'
+CORS_ALLOW_ALL_ORIGINS = True
 DATABASES = {
     'default': {
         'ENGINE': 'mssql',

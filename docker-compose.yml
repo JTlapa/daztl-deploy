@@ -31,4 +31,5 @@ services:
     environment:
       SA_PASSWORD: "DAztl123@Secure"
       ACCEPT_EULA: "Y"
-      MSSQL_PID: "Express"
+      MSSQL_PID: "Developer"
+      MSSQL_AGENT_ENABLED: "true"

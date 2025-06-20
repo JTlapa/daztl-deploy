@@ -75,7 +75,7 @@ class ArtistProfileUpdateSerializer(serializers.ModelSerializer):
 # — CU-03: Buscar contenido
 class SongSerializer(serializers.ModelSerializer):
     artist_name = serializers.CharField(source='artist.user.username', read_only=True)
-    audio_url = serializers.FileField(source='audio_file', read_only=True)
+    audio_url = serializers.CharField(source='audio_file', read_only=True)
     cover_url = serializers.SerializerMethodField()
     
     def get_cover_url(self, obj):
@@ -83,14 +83,14 @@ class SongSerializer(serializers.ModelSerializer):
         
         if obj.cover_image:
             if request:
-                return request.build_absolute_uri(obj.cover_image.url)
-            return obj.cover_image.url.replace('http://localhost/', 'http://localhost:8000/')
+                return obj.cover_image.name
+            return obj.cover_image.name
 
         album_with_song = Album.objects.filter(songs=obj).first()
         if album_with_song and album_with_song.cover_image:
             if request:
-                return request.build_absolute_uri(album_with_song.cover_image.url)
-            return album_with_song.cover_image.url.replace('http://localhost/', 'http://localhost:8000/')  
+                return album_with_song.cover_image.name
+            return album_with_song.cover_image.name  
             
         return None
     class Meta:
@@ -100,6 +100,13 @@ class SongSerializer(serializers.ModelSerializer):
 
 class AlbumSerializer(serializers.ModelSerializer):
     songs = SongSerializer(many=True, read_only=True)
+    cover_image = serializers.SerializerMethodField()
+
+    def get_cover_image(self, obj):
+        if obj.cover_image:  # Si hay una imagen de portada
+            return obj.cover_image.name  # Devuelve la ruta relativa (ej: "playlist_covers/imagen.jpg")
+        return ""
+    
     class Meta:
         model = Album
         fields = ['id','title','songs','cover_image']
@@ -114,7 +121,12 @@ class ArtistProfileSerializer(serializers.ModelSerializer):
 # — CU-05/06/07: Playlists
 class PlaylistSerializer(serializers.ModelSerializer):
     songs = SongSerializer(many=True, read_only=True)
+    cover = serializers.SerializerMethodField()  # Sobrescribimos el campo
 
+    def get_cover(self, obj):
+        if obj.cover:  # Si hay una imagen de portada
+            return obj.cover.name  # Devuelve la ruta relativa (ej: "playlist_covers/imagen.jpg")
+        return ""
     class Meta:
         model = Playlist
         fields = ['id','name','songs','created_at', 'cover']
