@@ -1194,7 +1194,7 @@ class MusicServiceServicer(daztl_service_pb2_grpc.MusicServiceServicer):
     def UploadSong(self, request, context):
         try:
             headers = {
-                **make_auth_header(request.token),
+                "Authorization": f"Bearer {request.token}",
                 "Host": "localhost"
             }
 

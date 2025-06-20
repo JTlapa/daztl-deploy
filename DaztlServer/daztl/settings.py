@@ -6,7 +6,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 SECRET_KEY = 'django-insecure-=em%q_7nw%6v-!zg1i-qllp*e+s*2&v^+-@%!cu$h^3!61s_lb'
 DEBUG = True
-ALLOWED_HOSTS = ['django_app', 'localhost', '127.0.0.1', 'grpc_server']
+ALLOWED_HOSTS = ['django_app', 'localhost', '127.0.0.1', 'grpc_server', '10.0.2.2', '*']
 
 AUTH_USER_MODEL = 'api.User'
 
