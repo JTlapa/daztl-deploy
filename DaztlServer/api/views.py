@@ -11,6 +11,8 @@ from rest_framework.parsers import MultiPartParser
 from rest_framework.parsers import FormParser
 from django.db import IntegrityError
 import os
+from django.contrib.auth import get_user_model
+
 from rest_framework.exceptions import ValidationError
 
 from .models import (
@@ -404,12 +406,21 @@ class ProfilePictureUploadGRPCView(APIView):
         serializer = ProfilePictureUploadSerializer(user, data={'profile_picture': image_file}, partial=True)
         if serializer.is_valid():
             serializer.save()
+            user = get_user_model().objects.get(id=user.id)
+
+            image_url = (
+                request.build_absolute_uri(user.profile_picture.url)
+                if user.profile_picture and hasattr(user.profile_picture, 'url')
+                else None
+            )
+
+
             return Response({
                 'message': 'Imagen actualizada',
-                'image_url': request.build_absolute_uri(user.profile_picture.url)
+                'image_url': image_url
             })
+
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
 class AdminReportsView(APIView):
     permission_classes = [permissions.IsAuthenticated]
     

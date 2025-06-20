@@ -161,12 +161,7 @@ class LikeSerializer(serializers.ModelSerializer):
         model = Like
         fields = ['id', 'user', 'artist', 'created_at']
 class ProfilePictureUploadSerializer(serializers.ModelSerializer):
-    profile_picture = serializers.SerializerMethodField()
-
-    def get_profile_picture(self, obj):
-        if obj.profile_picture:
-            return obj.profile_picture.name
-        return ""
+    
     class Meta:
         model = User
         fields = ['profile_picture']
