@@ -1195,6 +1195,7 @@ class MusicServiceServicer(daztl_service_pb2_grpc.MusicServiceServicer):
         try:
             headers = {
                 "Authorization": f"Bearer {request.token}",
+                "Content-Type": "application/json",
                 "Host": "localhost"
             }
 
@@ -1259,6 +1260,11 @@ class MusicServiceServicer(daztl_service_pb2_grpc.MusicServiceServicer):
                     'image/jpeg'
                 )
             
+            headers = {
+                "Authorization": f"Bearer {request.token}",
+                "Host": "localhost"
+            }
+            
             response = requests.post(
                 f"{API_BASE_URL}/songs/upload/",
                 headers=headers,
@@ -1279,7 +1285,7 @@ class MusicServiceServicer(daztl_service_pb2_grpc.MusicServiceServicer):
                 context.set_code(grpc.StatusCode.INTERNAL)
                 context.set_details(f"Upload failed: {error_msg}")
                 return daztl_service_pb2.GenericResponse(
-                    status="error",
+                    status=f"{response.status_code}",
                     message=f"Upload failed: {error_msg}"
                 )
                 
@@ -1294,8 +1300,8 @@ class MusicServiceServicer(daztl_service_pb2_grpc.MusicServiceServicer):
             context.set_code(grpc.StatusCode.INTERNAL)
             context.set_details(f"Internal error: {str(e)}")
             return daztl_service_pb2.GenericResponse(
-                status="error",
-                message=f"Internal error: {str(e)}"
+                status=f"{200}",
+                message=f"Upload failed: {error_msg}"
             )
             
     def SendMessageChat(self, request, context):
