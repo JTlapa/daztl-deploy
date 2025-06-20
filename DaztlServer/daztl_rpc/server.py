@@ -1607,8 +1607,8 @@ class MusicServiceServicer(daztl_service_pb2_grpc.MusicServiceServicer):
         
 def serve():
     options = [
-        ('grpc.max_receive_message_length', 50 * 1024 * 1024), 
-        ('grpc.max_send_message_length', 50 * 1024 * 1024)       
+        ('grpc.max_receive_message_length', 150 * 1024 * 1024), 
+        ('grpc.max_send_message_length', 150 * 1024 * 1024)       
     ]
     
     server = grpc.server(
