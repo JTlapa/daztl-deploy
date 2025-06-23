@@ -1151,7 +1151,7 @@ class MusicServiceServicer(daztl_service_pb2_grpc.MusicServiceServicer):
     def MarkNotificationAsSeen(self, request, context):
         try:
             headers = {
-                **make_auth_header(request.token),
+                "Authorization": f"Bearer {request.token}",
                 "Host": "localhost"
             }
             response = requests.patch(
@@ -1563,7 +1563,7 @@ class MusicServiceServicer(daztl_service_pb2_grpc.MusicServiceServicer):
         
         try:
             headers = {
-                **make_auth_header(request.token),
+                "Authorization": f"Bearer {token}",
                 "Host": "localhost"
             }
             payload = {

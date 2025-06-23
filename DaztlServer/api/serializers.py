@@ -123,7 +123,9 @@ class ArtistProfileSerializer(serializers.ModelSerializer):
     def get_profile_picture(self, obj):
         request = self.context.get('request')
         if obj.user.profile_picture:
-            return request.build_absolute_uri(obj.user.profile_picture.url)
+            if request is not None:
+                return request.build_absolute_uri(obj.user.profile_picture.url)
+            return obj.user.profile_picture.url
         return ""
 
 # — CU-05/06/07: Playlists
